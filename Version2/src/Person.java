@@ -1,69 +1,78 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 能够随机运动的民众
+ *
+ * @ClassName: Person
+ * @Description: 能够随机运动的民众
+ * @author: Bruce Young
+ * @date: 2020年02月02日 17:05
+ */
 
 public class Person extends Point {
     private City city;
 
-    //假设人都在做三点运动：家 单位 食堂 单位 家 这个顺序 每个人的初始位置都在家里
-    //并且都会在三个点待一定时间，具体是围绕着一个固定距离做圆周运动还是呆在那里还没想好
-    //[0] 是x [1]是y
+    private MoveTarget moveTarget;
+    /**
+     * 人群流动意愿影响系数：正态分布方差sigma
+     */
+    int sig = 1;
 
-    int[] home  = new int[2];
-    //这两个分别保存在moveTargets里的[0]和[1]里
-    //int[] wordPlace= new int[2];
-    //int[] restuarnt= new int[2];
+    /**
+     * 正态分布N(mu,sigma)随机位移目标位置
+     */
 
-    Random random = new Random();
+    double targetXU;//x方向的均值mu
+    double targetYU;//y方向的均值mu
+    double targetSig = 50;//方差sigma
 
-
-    private List<MoveTarget> moveTargets  = new ArrayList<MoveTarget>();
-    //0-home,1-workPlace,2-resturant
-    //第一个目标点是workPlace
-    int location = 1;
-    //true 代表回家 false 代表出门
-    boolean isBack = false;
-
-
-    public Person(City city,int x,int y) {
-        super(x, y);
-
-        this.city = city;
-        //没必要进行正态分布，随机分布即可
-        home[0] = x;
-        home[0] = y;
-
-        MoveTarget home = new MoveTarget(x,y);
-        moveTargets.add(home);
-        //代表着person只能在三个点中进行运动，已经确定好了
-        //第一次是单位的地址，第二次是食堂的地址；
-        for(int i = 0;i<2;i++){
-            int x_point = random.nextInt(Constants.CITY_WIDTH);
-            int y_point = random.nextInt(Constants.CITY_HEIGHT);
-            MoveTarget t = new MoveTarget(x_point,y_point);
-            moveTargets.add(t);
-        }
-
-    }
-
+    /**
+     * 市民的状态
+     * <p>
+     * 市民状态应该需要细分，虽然有的状态暂未纳入模拟，但是细分状态应该保留
+     */
     public interface State {
         int NORMAL = 0;//正常人，未感染的健康人
         int SUSPECTED = NORMAL + 1;//有暴露感染风险
         int SHADOW = SUSPECTED + 1;//潜伏期
         int CONFIRMED = SHADOW + 1;//发病且已确诊为感染病人
         int FREEZE = CONFIRMED + 1;//隔离治疗，禁止位移
+
         //已治愈出院的人转为NORMAL即可，否则会与作者通过数值大小判断状态的代码冲突
         int DEATH = FREEZE + 1;//病死者
+        //int CURED = DEATH + 1;//治愈数量用于计算治愈出院后归还床位数量，该状态是否存续待定
     }
 
+    public Person(City city, int x, int y) {
+        super(x, y);
+        this.city = city;
+        //对市民的初始位置进行N(x,100)的正态分布随机
+        targetXU = MathUtil.stdGaussian(100, x);
+        targetYU = MathUtil.stdGaussian(100, y);
 
+    }
 
-    //public boolean wantMove() {
-       // return MathUtil.stdGaussian(sig, Constants.u) > 0;
-    //}
+    /**
+     * 流动意愿标准化
+     * <p>
+     * 根据标准正态分布生成随机人口流动意愿
+     * <p>
+     * 流动意愿标准化后判断是在0的左边还是右边从而决定是否流动。
+     * <p>
+     * 设X随机变量为服从正态分布，sigma是影响分布形态的系数，从而影响整体人群流动意愿分布
+     * u值决定正态分布的中轴是让更多人群偏向希望流动或者希望懒惰。
+     * <p>
+     * value的推导：
+     * StdX = (X-u)/sigma
+     * X = sigma * StdX + u
+     *
+     * @return
+     */
+    public boolean wantMove() {
+        return MathUtil.stdGaussian(sig, Constants.u) > 0;
+    }
 
-    //初始状态为normal
     private int state = State.NORMAL;
 
     public int getState() {
@@ -79,18 +88,21 @@ public class Person extends Point {
     int dieMoment = 0;//死亡时刻，为0代表未确定，-1代表不会病死
 
 
-    //是否被感染
     public boolean isInfected() {
         return state >= State.SHADOW;
     }
 
-    //感染的时间
     public void beInfected() {
         state = State.SHADOW;
         infectedTime = MyPanel.worldTime;
     }
 
-    //两点之间的直线距离
+    /**
+     * 计算两点之间的直线距离
+     *
+     * @param person
+     * @return
+     */
     public double distance(Person person) {
         return Math.sqrt(Math.pow(getX() - person.getX(), 2) + Math.pow(getY() - person.getY(), 2));
     }
@@ -98,20 +110,30 @@ public class Person extends Point {
     /**
      * 住院
      */
-    //暂时还用不到
     private void freezy() {
         state = State.FREEZE;
     }
 
-
-    //将如何运动
+    /**
+     * 不同状态下的单个人实例运动行为
+     */
     private void action() {
 
         if (state == State.FREEZE || state == State.DEATH) {
             return;//如果处于隔离或者死亡状态，则无法行动
         }
+        if (!wantMove()) {
+            return;
+        }
+        //存在流动意愿的，将进行流动，流动位移仍然遵循标准正态分布
+        if (moveTarget == null || moveTarget.isArrived()) {
+            //在想要移动并且没有目标时，将自身移动目标设置为随机生成的符合正态分布的目标点
+            //产生N(a,b)的数：Math.sqrt(b)*random.nextGaussian()+a
+            double targetX = MathUtil.stdGaussian(targetSig, targetXU);
+            double targetY = MathUtil.stdGaussian(targetSig, targetYU);
+            moveTarget = new MoveTarget((int) targetX, (int) targetY);
 
-        MoveTarget moveTarget = moveTargets.get(location);
+        }
 
         //计算运动位移
         int dX = moveTarget.getX() - getX();
@@ -122,22 +144,6 @@ public class Person extends Point {
         if (length < 1) {
             //判断是否到达目标点
             moveTarget.setArrived(true);
-
-            //判断这个人位置的状态 以便于移动到下一个状态
-            if(location == 0){
-                location++;
-                isBack = false;
-            }else if(location == 1){
-                if(isBack){
-                    location--;
-                }else{
-                    location++;
-                }
-            }else if(location == 2){
-                location--;
-                isBack = true;
-            }
-
             return;
         }
 
@@ -179,11 +185,13 @@ public class Person extends Point {
 
     }
 
-    //public Bed useBed;
+    public Bed useBed;
 
     private float SAFE_DIST = 2f;//安全距离
 
-    //对各种状态的人进行不同的处理，更新发布市民健康状态
+    /**
+     * 对各种状态的人进行不同的处理，更新发布市民健康状态
+     */
     public void update() {
         //@TODO找时间改为状态机
 
@@ -205,9 +213,32 @@ public class Person extends Point {
 
             }
         }
+        //TODO 暂时缺失治愈出院市民的处理。需要确定一个变量用于治愈时长。由于案例太少，暂不加入。
 
-        //隔离区没加
 
+        if (state == State.CONFIRMED
+                && MyPanel.worldTime - confirmedTime >= Constants.HOSPITAL_RECEIVE_TIME) {
+            //如果患者已经确诊，且（世界时刻-确诊时刻）大于医院响应时间，即医院准备好病床了，可以抬走了
+            Bed bed = Hospital.getInstance().pickBed();//查找空床位
+            if (bed == null) {
+
+                //没有床位了，报告需求床位数
+
+            } else {
+                //安置病人
+                useBed = bed;
+                state = State.FREEZE;
+                setX(bed.getX());
+                setY(bed.getY());
+                bed.setEmpty(false);
+            }
+        }
+
+        //处理病死者
+        if ((state == State.CONFIRMED || state == State.FREEZE) && MyPanel.worldTime >= dieMoment && dieMoment > 0) {
+            state = State.DEATH;//患者死亡
+            Hospital.getInstance().returnBed(useBed);//归还床位
+        }
 
         //增加一个正态分布用于潜伏期内随机发病时间
         double stdRnShadowtime = MathUtil.stdGaussian(25, Constants.SHADOW_TIME / 2);

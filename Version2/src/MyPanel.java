@@ -25,10 +25,12 @@ public class MyPanel extends JPanel implements Runnable {
     public void paint(Graphics g) {
         super.paint(g);
         g.setColor(new Color(0x00ff00));//设置医院边界颜色
-
+        //绘制医院边界
+        g.drawRect(Hospital.getInstance().getX(), Hospital.getInstance().getY(),
+                Hospital.getInstance().getWidth(), Hospital.getInstance().getHeight());
         g.setFont(new Font("微软雅黑", Font.BOLD, 16));
         g.setColor(new Color(0x00ff00));
-        //g.drawString("医院", Hospital.getInstance().getX() + Hospital.getInstance().getWidth() / 4, Hospital.getInstance().getY() - 16);
+        g.drawString("医院", Hospital.getInstance().getX() + Hospital.getInstance().getWidth() / 4, Hospital.getInstance().getY() - 16);
         //绘制代表人类的圆点
         List<Person> people = PersonPool.getInstance().getPersonList();
         if (people == null) {
@@ -69,7 +71,7 @@ public class MyPanel extends JPanel implements Runnable {
 
         }
 
-        int captionStartOffsetX = 700  + 40;
+        int captionStartOffsetX = 700 + Hospital.getInstance().getWidth() + 40;
         int captionStartOffsetY = 40;
         int captionSize = 24;
 
@@ -115,7 +117,8 @@ public class MyPanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        timer.schedule(new MyTimerTask(), 0, 100);//启动世界计时器，时间开始流动
+        timer.schedule(new MyTimerTask(), 0, 100);//启动世界计时器，时间开始流动（突然脑补DIO台词：時は停た）
     }
+
 
 }

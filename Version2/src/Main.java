@@ -1,15 +1,21 @@
 import javax.swing.*;
+
 import java.util.List;
 import java.util.Random;
 
+/**
+ * 模拟程序主入口
+ *
+ * @author
+ * @comment GinRyan
+ */
 public class Main {
 
     public static void main(String[] args) {
-        //initHospital();
+        initHospital();
         initPanel();
         initInfected();
     }
-
 
     /**
      * 初始化画布
@@ -19,7 +25,7 @@ public class Main {
         Thread panelThread = new Thread(p);
         JFrame frame = new JFrame();
         frame.add(p);
-        frame.setSize(Constants.CITY_WIDTH  + 300, Constants.CITY_HEIGHT);
+        frame.setSize(Constants.CITY_WIDTH + hospitalWidth + 300, Constants.CITY_HEIGHT);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setTitle("瘟疫传播模拟");
@@ -27,6 +33,14 @@ public class Main {
         panelThread.start();//开启画布线程，即世界线程，接着看代码的下一站可以转MyPanel.java
     }
 
+    private static int hospitalWidth;
+
+    /**
+     * 初始化医院参数
+     */
+    private static void initHospital() {
+        hospitalWidth = Hospital.getInstance().getWidth();
+    }
 
     /**
      * 初始化初始感染者
@@ -41,4 +55,5 @@ public class Main {
             person.beInfected();//让这个幸运的市民成为感染者
         }
     }
+
 }
