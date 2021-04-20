@@ -2,16 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * 医院
- * <p>
- * 床位容量
- *
- * @ClassName: Hospital
- * @Description: 医院，包含床位容量
- * @author: Bruce Young
- * @date: 2020年02月02日 20:58
- */
+
 public class Hospital extends Point {
     public static final int HOSPITAL_X = 720;
     public static final int HOSPITAL_Y = 80;
@@ -37,11 +28,7 @@ public class Hospital extends Point {
     private Point point = new Point(HOSPITAL_X, HOSPITAL_Y);//第一个床位所在坐标，用于给其他床位定绝对坐标
     private List<Bed> beds = new ArrayList<>();
 
-    /**
-     * 获取所有床位
-     *
-     * @return
-     */
+
     public List<Bed> getBeds() {
         return beds;
     }
@@ -73,11 +60,8 @@ public class Hospital extends Point {
         }
     }
 
-    /**
-     * 使用床位
-     *
-     * @return
-     */
+
+    //选择床位
     public Bed pickBed() {
         for (Bed bed : beds) {
             if (bed.isEmpty()) {
@@ -87,12 +71,7 @@ public class Hospital extends Point {
         return null;
     }
 
-    /**
-     * 死亡或痊愈出院空出床位
-     *
-     * @param bed
-     * @return
-     */
+    //空出床位
     public Bed returnBed(Bed bed) {
         if (bed != null) {
             bed.setEmpty(true);
