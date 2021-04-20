@@ -16,6 +16,7 @@ public class Person extends Point {
     //这两个分别保存在moveTargets里的[0]和[1]里
     //int[] wordPlace= new int[2];
     //int[] restuarnt= new int[2];
+    //感染的地方
     int[] confirmLocation = new int[2];
 
     Random random = new Random();
@@ -27,7 +28,12 @@ public class Person extends Point {
     int location = 1;
     //true 代表回家 false 代表出门
     boolean isBack = false;
-    boolean isIsolation = false;
+   // boolean isIsolation = false;
+    //初始状态下，两者均为false，未戴口罩，没打疫苗
+    boolean isMask= false;
+    boolean isVaccine = false;
+    //初始状态下，我们并不追踪
+    boolean isTrack = false;
 
 
     public Person(City city,int x,int y) {
@@ -103,8 +109,6 @@ public class Person extends Point {
             return;//如果处于隔离或者死亡状态，则无法行动
         }
 
-        //TODO: 隔离的规则要加上
-
         MoveTarget moveTarget = moveTargets.get(location);
 
         //计算运动位移
@@ -173,17 +177,13 @@ public class Person extends Point {
 
     }
 
-    //todo 隔离情况下的行动
-    private void isolatedAction(){
 
-    }
-
-    //能够追溯源头后的行动
-    public void trace(){
-
-    }
 
     //带上口罩 或者 打完疫苗之后的行动
+    //口罩好做，改参数就行
+    //疫苗怎么做啊 打过疫苗之后感染率降低80% 并且不会死亡
+    //疫苗与口罩可以共存
+    //怎么打疫苗是个问题
 
 
     public Bed useBed;
@@ -220,14 +220,10 @@ public class Person extends Point {
         }
 
         //处理未隔离者的移动问题
-        //TODO
-        //可以在这里加一个判断，两种不同的移动规则：隔离政策/没有隔离政策
+        //医院本身等于隔离，不必再做第二次隔离规则了
 
-        if(isIsolation){
-            isolatedAction();
-        }else {
-            action();
-        }
+        action();
+
 
         //State == NORMAL 时的状态应该怎么判断
         if(state == State.NORMAL) {
@@ -246,8 +242,20 @@ public class Person extends Point {
             if (person.getState() == State.NORMAL || person.getState() == State.DEATH) {
                 continue;
             }
+            //戴口罩和打疫苗都会降低感染的概率
+
+            float broad_rate = Constants.BROAD_RATE;
+
+            if(isMask){
+                broad_rate = broad_rate*0.8f;
+            }
+
+            if(isVaccine){
+                broad_rate = broad_rate*0.2f;
+            }
+
             float random = new Random().nextFloat();
-            if (random < Constants.BROAD_RATE && distance(person) < SAFE_DIST) {
+            if (random < broad_rate && distance(person) < SAFE_DIST) {
                 //记录下被感染的时间和地点
                 this.beInfected();
                 break;
@@ -281,6 +289,11 @@ public class Person extends Point {
 
     //这个函数用来判断已经感染的人士应该怎么
     public void confirmAction(){
+        //打了疫苗的人不会死
+        if(isVaccine){
+            dieMoment = -1;
+        }
+
         if ( dieMoment == 0) {
 
             int destiny = new Random().nextInt(10000) + 1;//[1,10000]随机数
@@ -322,7 +335,38 @@ public class Person extends Point {
 
 
     //这个函数用来判断已经住院的患者的行动
+    //追溯患病者源头在这里
     public void freezeAction(){
+
+        //追踪病人的行动轨迹，但是只追踪一次
+        if(isTrack){
+            List<Person> people = PersonPool.getInstance().personList;
+            for(Person person :people){
+                int dX = person.getX() - confirmLocation[0];
+                int dY = person.getY() - confirmLocation[1];
+
+                double length = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));//与目标点的距离
+                //如果距离小于一定距离（称之为能追踪的最大范围且已经感染了或者在潜伏中就进入隔离程序）
+                if(length<5 && (person.state == State.CONFIRMED || person.state == State.SHADOW)){
+                    Bed bed = Hospital.getInstance().pickBed();//查找空床位
+                    if (bed == null) {
+
+                        //没有床位了，报告需求床位数
+
+                    } else {
+                        //安置病人
+                        person.useBed = bed;
+                        person.state = State.FREEZE;
+                        setX(bed.getX());
+                        setY(bed.getY());
+                        bed.setEmpty(false);
+                    }
+                }
+            }
+            //下一次判断死亡or治愈时并不会再次追踪 or 溯源
+            isTrack = false;
+
+        }
 
         //如果这个人既未能被治愈也没确定死亡
         if ( dieMoment == 0 && cureMoment == 0) {
@@ -348,7 +392,7 @@ public class Person extends Point {
         }
 
 
-        //处理病死者
+        //处理治愈者
         if (MyPanel.worldTime >= cureMoment && cureMoment > 0) {
             state = State.NORMAL;//患者回归正常生活
             Hospital.getInstance().returnBed(useBed);//归还床位

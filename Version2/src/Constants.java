@@ -17,9 +17,6 @@ public class Constants {
     public static int CURE_TIME = 100;//死亡时间均值，30天，从发病（确诊）时开始计时
     public static double CURE_VARIANCE = 1;//死亡时间方差
 
-    /**
-     * 城市大小即窗口边界，限制不允许出城
-     */
     public static final int CITY_WIDTH = 700;
     public static final int CITY_HEIGHT = 800;
 
