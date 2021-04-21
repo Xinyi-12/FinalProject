@@ -12,14 +12,14 @@ public class JTextFieldHintListener implements FocusListener {
         this.textField = jTextField;
         this.hintText = hintText;
         this.myJPanel = myJPanel;
-        jTextField.setText(hintText);  //默认直接显示
+        jTextField.setText(hintText);  //Default direct display
         jTextField.setFont(new Font("宋体", Font.PLAIN, 10 * 2));
         jTextField.setForeground(Color.GRAY);
     }
 
     @Override
     public void focusGained(FocusEvent e) {
-        //获取焦点时，清空提示内容
+        //Clear the prompt when getting focus
         String temp = textField.getText();
         if (temp.equals(hintText)) {
             textField.setText("");
@@ -30,7 +30,7 @@ public class JTextFieldHintListener implements FocusListener {
 
     @Override
     public void focusLost(FocusEvent e) {
-        //失去焦点时，没有输入内容，显示提示内容
+        //When focus is lost, no input is made and the prompt is displayed
         String temp = textField.getText();
         if (temp.equals("")) {
             textField.setForeground(Color.GRAY);
