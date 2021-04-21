@@ -29,7 +29,7 @@ public class Hospital extends Point {
 //        return hospital;
 //    }
 
-    private Point point;//第一个床位所在坐标，用于给其他床位定绝对坐标
+    private Point point;//The coordinates of the first bed, used to set the absolute coordinates of the other beds
     private List<Bed> beds = new ArrayList<>();
 
 
@@ -38,7 +38,7 @@ public class Hospital extends Point {
     }
 
     public Hospital(Constants constants, int sx, int sy) {
-        //医院矩形所在坐标
+        //Hospital rectangle location coordinates
 
         super(sx, sy + 10);
         this.HOSPITAL_X = sx;
@@ -46,25 +46,25 @@ public class Hospital extends Point {
         point = new Point(sx, sy);
 
         this.constants = constants;
-        //根据床位数量调整医院矩形的大小
+        //Adjusting the size of the hospital rectangle to the number of beds
         if (constants.getBedCount() == 0) {
             width = 0;
             height = 0;
         }
-        //根据医院床位数量计算医院宽度
-        //因为高度定了只能装载100个床位
+        //Calculate the width of the hospital according to the number of hospital beds
+        //Because the height is set only 100 beds can be loaded
         int column = constants.getBedCount() / 100;
         width = column * 6;
         if (width < 60)
             width = 60;
-        //根据第一个床位坐标初始化其他床位的坐标
+        //Initialize the coordinates of the other beds based on the coordinates of the first bed
         for (int i = 0; i < column; i++) {
 
             for (int j = 10; j <= 606; j += 6) {
 
                 Bed bed = new Bed(point.getX() + i * 6, point.getY() + j);
                 beds.add(bed);
-                if (beds.size() >= constants.getBedCount()) {//确定医院床位承载数量
+                if (beds.size() >= constants.getBedCount()) {//Determining the number of hospital beds to be carried
                     break;
                 }
             }
