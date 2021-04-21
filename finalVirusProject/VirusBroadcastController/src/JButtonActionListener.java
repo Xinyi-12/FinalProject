@@ -65,7 +65,7 @@ public class JButtonActionListener implements ActionListener {
             Constants constants = new Constants();
             String text1 = myJPanel.text1.getText();
             if (text1 != null && text1.length() > 0 && !VirusBroadcastUtil.isNumeric(text1)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：病毒传播率必须输入0~1之间的数据，例如：0.8，默认：0.8", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：Virus propagation rate must be entered between 0 and 1, for example: 0.8, default: 0.8", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setBroadRate(Float.valueOf(text1));
@@ -73,7 +73,7 @@ public class JButtonActionListener implements ActionListener {
 
             String text2 = myJPanel.text2.getText();
             if (text2 != null && text2.length() > 0 && !VirusBroadcastUtil.isNumeric(text2)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：医疗响应时间必须输入正整数，例如：10，默认：10，单位：天", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：Medical response time must be entered as a positive integer, e.g., 10, default: 10, unit: days", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setHospitalReceiveTime(Integer.valueOf(text2));
@@ -81,7 +81,7 @@ public class JButtonActionListener implements ActionListener {
 
             String text3 = myJPanel.text3.getText();
             if (text3 != null && text3.length() > 0 && !VirusBroadcastUtil.isNumeric(text3)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：初始化感染者必须输入正整数，例如：50，默认：50，单位：人", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：Initializing infected must be entered as a positive integer, e.g., 50, default: 50, unit: person", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setOriginalCount(Integer.valueOf(text3));
@@ -89,28 +89,28 @@ public class JButtonActionListener implements ActionListener {
 
             String text4 = myJPanel.text4.getText();
             if (text4 != null && text4.length() > 0 && !VirusBroadcastUtil.isNumeric(text4)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：潜伏期必须输入正整数，例如：0，默认：0，单位：天", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：Latency must be entered as a positive integer, e.g., 0, default: 0, unit: days", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setShadowTime(Float.valueOf(text4) * 10);
 
             String text5 = myJPanel.text5.getText();
             if (text5 != null && text5.length() > 0 && !VirusBroadcastUtil.isNumeric(text5)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：床位数必须输入正整数，例如：0，默认：0，单位：张", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：The number of beds must be entered as a positive integer, for example: 0, default: 0, unit: sheets", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setBedCount(Integer.valueOf(text5));
 
             String text6 = myJPanel.text6.getText();
             if (text6 != null && text6.length() > 0 && !VirusBroadcastUtil.isNumeric(text6)) {
-                JOptionPane.showMessageDialog(myJPanel, "ERROR：人员流动率必须输入-1~1之间的数据，例如：0.99，默认：0.99", "温馨提示", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：The turnover rate must be entered between -1 and 1, for example: 0.99, default: 0.99", "Warm Tips", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             constants.setU(Float.valueOf(text6));
 
 //            String text7 = myJPanel.text7.getText();
 //            if (text7 != null && text7.length() > 0 && !"城市总人口数量，默认：5000".equals(text7) && !VirusBroadcastUtil.isNumeric(text7)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：城市总人口数量必须输入正整数，例如：5000，默认：5000，单位：个", "温馨提示", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(myJPanel, "ERROR：城市总人口数量必须输入正整数，例如：5000，默认：5000，单位：个", "Warm Tips", JOptionPane.ERROR_MESSAGE);
 //                return;
 //            }
 //            if (!"城市总人口数量，默认：5000".equals(text7))
@@ -118,7 +118,7 @@ public class JButtonActionListener implements ActionListener {
 //
 //            String text8 = myJPanel.text8.getText();
 //            if (text8 != null && text8.length() > 0 && !"病死率，默认：0.50".equals(text8) && !VirusBroadcastUtil.isNumeric(text8)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：病死率必须输入0～1之间的数据，例如：0.50，默认：0.50", "温馨提示", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(myJPanel, "ERROR：病死率必须输入0～1之间的数据，例如：0.50，默认：0.50", "Warm Tips", JOptionPane.ERROR_MESSAGE);
 //                return;
 //            }
 //            if (!"病死率，默认：0.50".equals(text8))
@@ -126,7 +126,7 @@ public class JButtonActionListener implements ActionListener {
 //
 //            String text9 = myJPanel.text9.getText();
 //            if (text9 != null && text9.length() > 0 && !"死亡时间均值，默认：100".equals(text9) && !VirusBroadcastUtil.isNumeric(text9)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间均值必须输入正整数，例如：100，默认：100，单位：天", "温馨提示", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间均值必须输入正整数，例如：100，默认：100，单位：天", "Warm Tips", JOptionPane.ERROR_MESSAGE);
 //                return;
 //            }
 //            if (!"死亡时间均值，默认：100".equals(text9))
@@ -134,7 +134,7 @@ public class JButtonActionListener implements ActionListener {
 //
 //            String text10 = myJPanel.text10.getText();
 //            if (text10 != null && text10.length() > 0 && !"死亡时间方差，默认：1".equals(text10) && !VirusBroadcastUtil.isNumeric(text10)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间方差必须输入0～1之间的整数，例如：1，默认：1", "温馨提示", JOptionPane.ERROR_MESSAGE);
+//                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间方差必须输入0～1之间的整数，例如：1，默认：1", "Warm Tips", JOptionPane.ERROR_MESSAGE);
 //                return;
 //            }
 //            if (!"死亡时间方差，默认：1".equals(text10))
@@ -148,7 +148,7 @@ public class JButtonActionListener implements ActionListener {
             System.out.println(sw);
             System.out.println(sh);
 
-            int times = 1;//根据屏幕分辨率控制放大倍数
+            int times = 1;//Control magnification according to screen resolution
             if (sw >= 1920) {
                 sw = 1920;
                 sh = 1200;
