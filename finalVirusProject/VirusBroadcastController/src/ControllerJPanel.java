@@ -25,10 +25,6 @@ public class ControllerJPanel extends JPanel implements Runnable {
     JLabel label7 = new JLabel("Percentage wearing a mask");
     JLabel label8 = new JLabel("Percentage of vaccination");
 
-//    JLabel label7 = new JLabel("城市总人口数量");
-//    JLabel label8 = new JLabel("病死率");
-//    JLabel label9 = new JLabel("死亡时间均值");
-//    JLabel label10 = new JLabel("死亡时间方差");
 
     JTextField text1 = new JTextField(10);
     JTextField text2 = new JTextField(10);
@@ -119,15 +115,6 @@ public class ControllerJPanel extends JPanel implements Runnable {
         text7.addFocusListener(new JTextFieldHintListener(text7, "0.5", this));
         text8.setBounds(x - 20, y - 0 * s, 180 * 2, 20 * 2);
         text8.addFocusListener(new JTextFieldHintListener(text8, "0.5", this));
-
-//        text7.setBounds(x - 20, y - 5 * s, 180 * 2, 20 * 2);
-//        text7.addFocusListener(new JTextFieldHintListener(text7, "城市总人口数量，默认：5000", this));
-//        text8.setBounds(x - 20, y - 4 * s, 180 * 2, 20 * 2);
-//        text8.addFocusListener(new JTextFieldHintListener(text8, "病死率，默认：0.50", this));
-//        text9.setBounds(x - 20, y - 3 * s, 180 * 2, 20 * 2);
-//        text9.addFocusListener(new JTextFieldHintListener(text9, "死亡时间均值，默认：100", this));
-//        text10.setBounds(x - 20, y - 2 * s, 180 * 2, 20 * 2);
-//        text10.addFocusListener(new JTextFieldHintListener(text10, "死亡时间方差，默认：1", this));
 
         this.add(text1);
         this.add(text2);
