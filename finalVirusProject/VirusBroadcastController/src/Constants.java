@@ -6,18 +6,18 @@ public class Constants {
 
     public int originalCount = 50;//Initial number of infections
     public static float broadRate = 0.8f;//Dissemination rate
-    public float shadowTime = 0;//Incubation time, 14 days for 140
+    public float shadowTime = 140;//Incubation time, 14 days for 140
     public int hospitalReceiveTime = 10;//Hospital admission response time
     public int bedCount = 0;//Hospital Beds
 
     public float u = 0.99f;
     public int cityPersonSize = 5000;//Total city population
-    public float fatalityRate = 0.50f;//fatality_rate
+    public float fatalityRate = 0.30f;//fatality_rate
     public int dieTime = 100;//Mean time to death, 30 days, from onset (diagnosis)
     public double dieVariance = 1;//Time variance of death
 
 
-    public float fatalityRateHospital = 0.25f;//fatality_rate
+    public float fatalityRateHospital = 0.15f;//fatality_rate
     public int cureTime = 100;
     public double cureVariance = 1;
 
