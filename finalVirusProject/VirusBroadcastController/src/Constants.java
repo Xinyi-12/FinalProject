@@ -22,6 +22,25 @@ public class Constants {
     public double cureVariance = 1;
 
 
+    private boolean isMask = false;
+    private boolean isVaccine = false;
+
+
+    public boolean isMask() {
+        return isMask;
+    }
+
+    public void setMask(boolean mask) {
+        isMask = mask;
+    }
+
+    public boolean isVaccine() {
+        return isVaccine;
+    }
+
+    public void setVaccine(boolean vaccine) {
+        isVaccine = vaccine;
+    }
 
 
     public int getOriginalCount() {
