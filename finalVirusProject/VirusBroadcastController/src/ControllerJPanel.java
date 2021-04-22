@@ -100,7 +100,7 @@ public class ControllerJPanel extends JPanel implements Runnable {
 
 
         text1.setBounds(x - 20, y - 7 * s, 180 * 2, 20 * 2);
-        text1.addFocusListener(new JTextFieldHintListener(text1, "0.8", this));
+        text1.addFocusListener(new JTextFieldHintListener(text1, "0 ~ 1", this));
         text2.setBounds(x - 20, y - 6 * s, 180 * 2, 20 * 2);
         text2.addFocusListener(new JTextFieldHintListener(text2, "10", this));
         text3.setBounds(x - 20, y - 5 * s, 180 * 2, 20 * 2);
