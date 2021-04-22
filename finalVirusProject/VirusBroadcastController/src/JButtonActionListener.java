@@ -107,31 +107,29 @@ public class JButtonActionListener implements ActionListener {
                 return;
             }
             constants.setU(Float.valueOf(text6));
+            
+                        String text7 = myJPanel.text7.getText();
+            if (text7 != null && text7.length() > 0 && !"80".equals(text7) && !VirusBroadcastUtil.isNumeric(text7)) {
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：", "warm tips", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-//            String text7 = myJPanel.text7.getText();
-//            if (text7 != null && text7.length() > 0 && !"城市总人口数量，默认：5000".equals(text7) && !VirusBroadcastUtil.isNumeric(text7)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：城市总人口数量必须输入正整数，例如：5000，默认：5000，单位：个", "Warm Tips", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//            if (!"城市总人口数量，默认：5000".equals(text7))
-//                constants.setCityPersonSize(Integer.valueOf(text7));
-//
-//            String text8 = myJPanel.text8.getText();
-//            if (text8 != null && text8.length() > 0 && !"病死率，默认：0.50".equals(text8) && !VirusBroadcastUtil.isNumeric(text8)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：病死率必须输入0～1之间的数据，例如：0.50，默认：0.50", "Warm Tips", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//            if (!"病死率，默认：0.50".equals(text8))
-//                constants.setFatalityRate(Float.valueOf(text8));
-//
-//            String text9 = myJPanel.text9.getText();
-//            if (text9 != null && text9.length() > 0 && !"死亡时间均值，默认：100".equals(text9) && !VirusBroadcastUtil.isNumeric(text9)) {
-//                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间均值必须输入正整数，例如：100，默认：100，单位：天", "Warm Tips", JOptionPane.ERROR_MESSAGE);
-//                return;
-//            }
-//            if (!"死亡时间均值，默认：100".equals(text9))
-//                constants.setDieTime(Integer.valueOf(text9));
-//
+            if ("80".equals(text7)){
+                //Person.isMask = true;
+                constants.setMask(true);
+
+            }
+
+
+            String text8 = myJPanel.text8.getText();
+            if (text8 != null && text8.length() > 0 && !("80").equals(text8) && !VirusBroadcastUtil.isNumeric(text8)) {
+                JOptionPane.showMessageDialog(myJPanel, "ERROR：", "warm tips", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            if (!"80".equals(text8))
+                constants.setVaccine(true);
+
+
 //            String text10 = myJPanel.text10.getText();
 //            if (text10 != null && text10.length() > 0 && !"死亡时间方差，默认：1".equals(text10) && !VirusBroadcastUtil.isNumeric(text10)) {
 //                JOptionPane.showMessageDialog(myJPanel, "ERROR：死亡时间方差必须输入0～1之间的整数，例如：1，默认：1", "Warm Tips", JOptionPane.ERROR_MESSAGE);
