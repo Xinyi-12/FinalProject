@@ -112,9 +112,9 @@ public class ControllerJPanel extends JPanel implements Runnable {
         text6.setBounds(x - 20, y - 2 * s, 180 * 2, 20 * 2);
         text6.addFocusListener(new JTextFieldHintListener(text6, "0.99", this));
         text7.setBounds(x - 20, y - 1 * s, 180 * 2, 20 * 2);
-        text7.addFocusListener(new JTextFieldHintListener(text7, "0.5", this));
+        text7.addFocusListener(new JTextFieldHintListener(text7, "Choose not to fill in or fill in 80", this));
         text8.setBounds(x - 20, y - 0 * s, 180 * 2, 20 * 2);
-        text8.addFocusListener(new JTextFieldHintListener(text8, "0.5", this));
+        text8.addFocusListener(new JTextFieldHintListener(text8, "Choose not to fill in or fill in 80", this));
 
         this.add(text1);
         this.add(text2);
