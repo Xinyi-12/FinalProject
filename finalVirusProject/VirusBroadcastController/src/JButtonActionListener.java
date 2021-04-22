@@ -44,13 +44,13 @@ public class JButtonActionListener implements ActionListener {
             myJPanel.text6.setFont(new Font("宋体", Font.PLAIN, 10 * 2));
             myJPanel.text6.setForeground(Color.GRAY);
 
-//            myJPanel.text7.setText("城市总人口数量，默认：5000");
-//            myJPanel.text7.setFont(new Font("宋体", Font.PLAIN, 10* 2));
-//            myJPanel.text7.setForeground(Color.GRAY);
-//
-//            myJPanel.text8.setText("病死率，默认：0.50");
-//            myJPanel.text8.setFont(new Font("宋体", Font.PLAIN, 10* 2));
-//            myJPanel.text8.setForeground(Color.GRAY);
+           myJPanel.text7.setText("Choose not to fill in or fill in 80");
+           myJPanel.text7.setFont(new Font("宋体", Font.PLAIN, 10* 2));
+           myJPanel.text7.setForeground(Color.GRAY);
+
+           myJPanel.text8.setText("Choose not to fill in or fill in 80");
+           myJPanel.text8.setFont(new Font("宋体", Font.PLAIN, 10* 2));
+           myJPanel.text8.setForeground(Color.GRAY);
 //
 //            myJPanel.text9.setText("死亡时间均值，默认：100");
 //            myJPanel.text9.setFont(new Font("宋体", Font.PLAIN, 10* 2));
