@@ -293,13 +293,14 @@ public class Person extends Point {
 
             float broad_rate = Constants.broadRate;
 
-            if(isMask){
-                broad_rate = broad_rate*0.8f;
-            }
+          
+        if(constants.isMask()){
+            broad_rate = broad_rate*0.5f;
+        }
 
-            if(isVaccine){
-                broad_rate = broad_rate*0.2f;
-            }
+        if(constants.isVaccine()){
+            broad_rate = broad_rate*0.2f;
+        }
 
             float random = new Random().nextFloat();
             if (random < broad_rate && distance(person) < SAFE_DIST) {
